@@ -23,7 +23,9 @@ class KMeans():
         """
         n_samples, _ = data.shape
         # initialize cluster centers
+        # here select k sample datas as possible cluster centers
         self.centers = np.array(random.sample(list(data), self.k))
+        # create a copy, not reference of a np.array
         self.initial_centers = np.copy(self.centers)
 
         # We will keep track of whether the assignment of data points
@@ -33,8 +35,10 @@ class KMeans():
         n_iters = 0
 
         while True:
+            # form a list
             new_assigns = [self.classify(datapoint) for datapoint in data]
 
+            # list judges equality directly
             if new_assigns == old_assigns:
                 print(f"Training finished after {n_iters} iterations!")
                 return
@@ -44,7 +48,12 @@ class KMeans():
 
             # recalculate centers
             for id_ in range(self.k):
+                # list => array 
+                # find index of arrays whose ids = id_
                 points_idx = np.where(np.array(new_assigns) == id_)
+                # get data points from a list of indexes
+                
+                # print(type(datapoints))
                 datapoints = data[points_idx]
                 self.centers[id_] = datapoints.mean(axis=0)
 
