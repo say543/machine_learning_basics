@@ -1,12 +1,16 @@
 # not yet run through python environment
 
 import numpy as np
-import matplotlib.pyplot as plt
+
 import random
 from sklearn.datasets import make_blobs
 np.random.seed(123)
 
-% matplotlib inline
+# install matplotlib
+# this line for ipython mac only
+import matplotlib 
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 
 class KMeans():
@@ -64,6 +68,18 @@ class KMeans():
         plt.scatter(self.initial_centers[:, 0], self.initial_centers[:,1], c='k')
         plt.show()
         
+
+
+# data set
+X, y = make_blobs(centers=4, n_samples=1000)
+print(f'Shape of dataset: {X.shape}')
+
+fig = plt.figure(figsize=(8,6))
+plt.scatter(X[:,0], X[:,1], c=y)
+plt.title("Dataset with 4 clusters")
+plt.xlabel("First feature")
+plt.ylabel("Second feature")
+plt.show()
         
 # initial and fit model
 kmeans = KMeans(n_clusters=4)
