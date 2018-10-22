@@ -45,6 +45,7 @@ class kNN():
             n_samples, _ = X.shape
             l2 = [np.sqrt(np.sum((self.data - X[i])**2, axis=1)) for i in range(n_samples)]
 
+        # ls is a empty list, so transfer to np array by axis = 0
         return np.array(l2)
 
     def predict(self, X, k=1):
@@ -91,14 +92,15 @@ print(f'X_test shape: {X_test.shape}')
 print(f'y_test shape: {y_test.shape}')
 
 # Example digits
-# if plt install then you can use it
-
+# open this block if want to show picutre
+'''
 fig = plt.figure(figsize=(10,8))
 for i in range(10):
     ax = fig.add_subplot(2, 5, i+1)
     plt.imshow(X[i].reshape((8,8)), cmap='gray')
     
 plt.show()
+'''
 
 
 
@@ -107,19 +109,19 @@ plt.show()
 knn = kNN()
 knn.fit(X_train, y_train)
 
-print("Testing one datapoint, k=1")
+print(f"Testing one datapoint, k=1, {X_test[0].shape}")
 print(f"Predicted label: {knn.predict(X_test[0], k=1)}")
 print(f"True label: {y_test[0]}")
 print()
-print("Testing one datapoint, k=5")
+print(f"Testing one datapoint, k=5, {X_test[20].shape}")
 print(f"Predicted label: {knn.predict(X_test[20], k=5)}")
 print(f"True label: {y_test[20]}")
 print()
-print("Testing 10 datapoint, k=1")
+print(f"Testing 10 datapoint, k=1, {X_test[5:15].shape}")
 print(f"Predicted labels: {knn.predict(X_test[5:15], k=1)}")
 print(f"True labels: {y_test[5:15]}")
 print()
-print("Testing 10 datapoint, k=4")
+print(f"Testing 10 datapoint, k=4, {X_test[5:15].shape}")
 print(f"Predicted labels: {knn.predict(X_test[5:15], k=4)}")
 print(f"True labels: {y_test[5:15]}")
 print()
