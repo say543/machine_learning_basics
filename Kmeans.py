@@ -51,10 +51,15 @@ class KMeans():
                 # list => array 
                 # find index of arrays whose ids = id_
                 points_idx = np.where(np.array(new_assigns) == id_)
-                # get data points from a list of indexes
+                # get data points from a list of indexes to form a np array
                 
-                # print(type(datapoints))
                 datapoints = data[points_idx]
+
+                # debug 
+                # numpy.ndarray
+                #print(f'type: {type(datapoints)}')
+                #print(f'type: {datapoints.shape}')
+
                 self.centers[id_] = datapoints.mean(axis=0)
 
     def l2_distance(self, datapoint):
