@@ -45,6 +45,7 @@ class LogisticRegression:
 
             # debug 
             # numpy.ndarray
+            # [num of samples X 1]
             print(f'type: {type(y_predict)}')
             print(f'type: {y_predict.shape}')
 
@@ -67,6 +68,8 @@ class LogisticRegression:
             self.bias = self.bias - learning_rate * db
 
             costs.append(cost)
+
+            # print out cost every 100 iterations
             if i % 100 == 0:
                 print(f"Cost after iteration {i}: {cost}")
 
@@ -77,6 +80,9 @@ class LogisticRegression:
         Predicts binary labels for a set of examples X.
         """
         y_predict = self.sigmoid(np.dot(X, self.weights) + self.bias)
+
+        # using 0.5 as thresold
+        # y_predict_labels is a list
         y_predict_labels = [1 if elem > 0.5 else 0 for elem in y_predict]
 
         return np.array(y_predict_labels)[:, np.newaxis]

@@ -85,6 +85,10 @@ print(f'X_shape: {X.shape}')
 print(f'y_shape: {y.shape}')
 
 
+# split
+#http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+# it can have multiple arraies as input
+# default  testing size is 25%
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 print(f'X_train shape: {X_train.shape}')
 print(f'y_train shape: {y_train.shape}')
