@@ -27,6 +27,10 @@ class LinearRegression:
         # Step 0: Initialize the parameters
         n_samples, n_features = X.shape
         self.weights = np.zeros(shape=(n_features,1))
+
+
+        # ? why bias initial as zero
+        # ? and it serves as a matrix
         self.bias = 0
         costs = []
 
@@ -38,6 +42,7 @@ class LinearRegression:
             cost = (1 / n_samples) * np.sum((y_predict - y)**2)
             costs.append(cost)
 
+            # print out cost every 100 iterations
             if i % 100 == 0:
                 print(f"Cost at iteration {i}: {cost}")
 
@@ -97,7 +102,7 @@ print(f'Shape y_test: {y_test.shape}')
 #  if going with gradient decent
 #########################################
 # traiing
-regressorregress  = LinearRegression()
+regressor  = LinearRegression()
 w_trained, b_trained, costs = regressor.train_gradient_descent(X_train, y_train, learning_rate=0.005, n_iters=600)
 
 fig = plt.figure(figsize=(8,6))
@@ -127,6 +132,7 @@ print(f"Error on test set: {np.round(error_test)}")
 #########################################
 # traninig
 # To compute the parameters using the normal equation, we add a bias value of 1 to each input example
+'''
 X_b_train = np.c_[np.ones((n_samples)), X_train]
 X_b_test = np.c_[np.ones((n_samples_test)), X_test]
 
@@ -142,6 +148,7 @@ error_test =  (1 / n_samples_test) * np.sum((y_p_test - y_test) ** 2)
 
 print(f"Error on training set: {np.round(error_train, 4)}")
 print(f"Error on test set: {np.round(error_test, 4)}")
+'''
 
 
 
