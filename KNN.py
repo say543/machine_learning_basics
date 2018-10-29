@@ -36,6 +36,10 @@ class kNN():
         Computes the euclidean distance between the training data and
         a new input example or matrix of input examples X
         """
+
+        # no terminantion condition
+
+
         # input: single data point
         if X.ndim == 1:
             l2 = np.sqrt(np.sum((self.data - X)**2, axis=1))
