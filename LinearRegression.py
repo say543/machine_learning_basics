@@ -34,6 +34,7 @@ class LinearRegression:
         self.bias = 0
         costs = []
 
+        # termination condition is decide by n_iters, hyperparamter
         for i in range(n_iters):
             # Step 1: Compute a linear combination of the input features and weights
             y_predict = np.dot(X, self.weights) + self.bias

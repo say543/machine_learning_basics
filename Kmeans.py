@@ -38,6 +38,7 @@ class KMeans():
             # form a list
             new_assigns = [self.classify(datapoint) for datapoint in data]
 
+            # terminantion condition
             # list judges equality directly
             if new_assigns == old_assigns:
                 print(f"Training finished after {n_iters} iterations!")
