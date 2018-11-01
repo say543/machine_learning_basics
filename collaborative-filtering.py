@@ -68,7 +68,9 @@ return pred
 
 ## Reading data
 cols_names = ['user_id', 'movie_id', 'rating', 'unix_timestamp']
-ratings = pd.read_csv('./u.data', sep='\t', names=cols_names, encoding='latin-1')
+#
+#ratings = pd.read_csv('./u.data', sep='\t', names=cols_names, encoding='latin-1')
+ratings = pd.read_csv('./collaborate-filter.data', sep='\t', names=cols_names, encoding='latin-1')
 
 
 n_users = ratings.user_id.unique().shape[0]
