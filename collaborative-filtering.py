@@ -1,3 +1,7 @@
+# https://github.com/adrianbarwicki/collaborative-filtering-demo
+# mdofify source branch
+
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
