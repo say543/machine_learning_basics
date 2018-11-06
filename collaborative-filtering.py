@@ -78,9 +78,10 @@ class recommendation_helpers:
         return (sim / norms / norms.T)
 
 
-
+    # ? renaming ratings to user_item_matrix_training is better
     def predict_simple(ratings, similarity, kind='user'):
         if kind == 'user':
+            # axis = 1, row base sum
             return similarity.dot(ratings) / np.array([np.abs(similarity).sum(axis=1)]).T
         elif kind == 'item':
             return ratings.dot(similarity) / np.array([np.abs(similarity).sum(axis=1)])
