@@ -1,4 +1,7 @@
 # https://github.com/adrianbarwicki/collaborative-filtering-demo
+# https://blog.csdn.net/pipisorry/article/details/51788955
+# user CF algorithm
+# find rating-similar users for a user and predict the user's rating 
 # mdofify source branch
 
 
@@ -79,10 +82,13 @@ class recommendation_helpers:
 
 
     # ? renaming ratings to user_item_matrix_training is better
+    # similarity : [n_users, n_users] if kind = 'user'
+    # similarity : [n_items, n_items] if kind = 'item'
     def predict_simple(ratings, similarity, kind='user'):
         if kind == 'user':
             # axis = 1, row base sum
             # np.array([]) from a 2d array with [1, n_users]
+            # similarity.dot(ratings) = [n_users, n_items]
             return similarity.dot(ratings) / np.array([np.abs(similarity).sum(axis=1)]).T
         elif kind == 'item':
             return ratings.dot(similarity) / np.array([np.abs(similarity).sum(axis=1)])
