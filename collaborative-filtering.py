@@ -1,5 +1,7 @@
 # https://github.com/adrianbarwicki/collaborative-filtering-demo
 # https://blog.csdn.net/pipisorry/article/details/51788955
+# equation link
+# http://divakalife.blogspot.com/2010/04/data-mining-collaborative-filtering.html
 # user CF algorithm
 # find rating-similar users for a user and predict the user's rating 
 # mdofify source branch
@@ -20,6 +22,9 @@ class recommendation_helpers:
     # custom
     #import recommendation_helpers
     # calculating mean squere error
+    # for pred
+    # simple_user_prediction : [n_users, n_items]
+    # simple_item_prediction : [n_items, n_users]
     def get_mse(pred, actual):
         # Ignore nonzero terms.
         pred = pred[actual.nonzero()].flatten()
@@ -86,11 +91,18 @@ class recommendation_helpers:
     # similarity : [n_items, n_items] if kind = 'item'
     def predict_simple(ratings, similarity, kind='user'):
         if kind == 'user':
+            # user-baed CF, also predict user rating
             # axis = 1, row base sum
-            # np.array([]) from a 2d array with [1, n_users]
+            # np.array([]) from a 2d array with [1, n_users] ,transpost to [n_users, 1]
             # similarity.dot(ratings) = [n_users, n_items]
+            #  for each user, output its scores for each item  as  [n_users, n_items]
             return similarity.dot(ratings) / np.array([np.abs(similarity).sum(axis=1)]).T
         elif kind == 'item':
+            # item-based CF, also predict user rating
+            # axis = 1, row base sum
+            # np.array([]) from a 2d array with [1, n_items]
+            # ratings.dot(similarity) = [n_items, users]
+            # for each user, output its scores for each item  as  [n_items, n_users]
             return ratings.dot(similarity) / np.array([np.abs(similarity).sum(axis=1)])
 
     def predict_topk(ratings, similarity, kind='user', k=40):
@@ -169,10 +181,12 @@ numpy.savetxt('temp/item-similarity.txt', item_similarity, fmt='%f')
 # we predict with an average over all users' and display it's prediction error
 
 # similarity.dot(ratings) / np.array([np.abs(similarity).sum(axis=1)]).T
+# simple_user_prediction : [n_users, n_items]
 simple_user_prediction = recommendation_helpers.predict_simple(train, user_similarity, 'user')
+# simple_item_prediction : [n_items, n_users] 
 simple_item_prediction = recommendation_helpers.predict_simple(train, item_similarity, 'item')
-print 'Simple Item-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_item_prediction, test))
 print 'Simple User-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_user_prediction, test))
+print 'Simple Item-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_item_prediction, test))
 
 # we predict with an average over the k-most similar users' and display it's prediction error
 
