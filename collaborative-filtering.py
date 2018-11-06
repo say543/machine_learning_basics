@@ -82,6 +82,7 @@ class recommendation_helpers:
     def predict_simple(ratings, similarity, kind='user'):
         if kind == 'user':
             # axis = 1, row base sum
+            # np.array([]) from a 2d array with [1, n_users]
             return similarity.dot(ratings) / np.array([np.abs(similarity).sum(axis=1)]).T
         elif kind == 'item':
             return ratings.dot(similarity) / np.array([np.abs(similarity).sum(axis=1)])
