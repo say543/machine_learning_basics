@@ -3,13 +3,18 @@
 # https://blog.csdn.net/pipisorry/article/details/51788955
 # equation link
 # http://divakalife.blogspot.com/2010/04/data-mining-collaborative-filtering.html
+# https://zhuanlan.zhihu.com/p/43020159 in Chinese
 # use USER-CF algorithm
 # find rating-similar users for a user and predict the user's rating 
 # use ITEM-CF algorithm
 # user KNN-based for USER-CF and ITEM-CF
 
+
+
 import numpy as np
 import pandas as pd
+import matplotlib 
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 
@@ -45,7 +50,7 @@ class recommendation_helpers:
 
         test = np.zeros(ratings.shape)
         train = ratings.copy()
-        for user in xrange(ratings.shape[0]):
+        for user in range(ratings.shape[0]):
 
             # choose 10 rating for a single users
             # ratings[user, :].nonzero()[0] : get index of rating non zero for a special user
@@ -112,17 +117,22 @@ class recommendation_helpers:
     def predict_topk(ratings, similarity, kind='user', k=40):
         pred = np.zeros(ratings.shape)
         if kind == 'user':
-            for i in xrange(ratings.shape[0]):
+            for i in range(ratings.shape[0]):
                 top_k_users = [np.argsort(similarity[:,i])[:-k-1:-1]]
-                for j in xrange(ratings.shape[1]):
-                    pred[i, j] = similarity[i, :][top_k_users].dot(ratings[:, j][top_k_users]) 
-                    pred[i, j] /= np.sum(np.abs(similarity[i, :][top_k_users]))
+                for j in range(ratings.shape[1]):
+                    #pred[i, j] = similarity[i, :][top_k_users].dot(ratings[:, j][top_k_users]) 
+                    #pred[i, j] /= np.sum(np.abs(similarity[i, :][top_k_users]))
+                    pred[i, j] = similarity[i, :][tuple(top_k_users)].dot(ratings[:, j][tuple(top_k_users)]) 
+                    pred[i, j] /= np.sum(np.abs(similarity[i, :][tuple(top_k_users)]))
+
         if kind == 'item':
-            for j in xrange(ratings.shape[1]):
+            for j in range(ratings.shape[1]):
                 top_k_items = [np.argsort(similarity[:,j])[:-k-1:-1]]
-                for i in xrange(ratings.shape[0]):
-                    pred[i, j] = similarity[j, :][top_k_items].dot(ratings[i, :][top_k_items].T) 
-                    pred[i, j] /= np.sum(np.abs(similarity[j, :][top_k_items]))        
+                for i in range(ratings.shape[0]):
+                    #pred[i, j] = similarity[j, :][top_k_items].dot(ratings[i, :][top_k_items].T) 
+                    #pred[i, j] /= np.sum(np.abs(similarity[j, :][top_k_items])) 
+                    pred[i, j] = similarity[j, :][tuple(top_k_items)].dot(ratings[i, :][tuple(top_k_items)].T) 
+                    pred[i, j] /= np.sum(np.abs(similarity[j, :][tuple(top_k_items)]))       
     
         return pred
 
@@ -132,7 +142,7 @@ cols_names = ['user_id', 'movie_id', 'rating', 'unix_timestamp']
 # modify to my own data path
 # using pandas to read ratings as a dataframe
 #ratings = pd.read_csv('./u.data', sep='\t', names=cols_names, encoding='latin-1')
-ratings = pd.read_csv('./collaborate-filter.data', sep='\t', names=cols_names, encoding='latin-1')
+ratings = pd.read_csv('./collaborative-filtering.data', sep='\t', names=cols_names, encoding='latin-1')
 
 # direccly access column, deduplicateion, get shape
 # http://pandas.pydata.org/pandas-docs/stable/tutorials.html
@@ -142,7 +152,8 @@ ratings = pd.read_csv('./collaborate-filter.data', sep='\t', names=cols_names, e
 n_users = ratings.user_id.unique().shape[0]
 n_items = ratings.movie_id.unique().shape[0]
 
-print str(n_users) + ' users | ' + str(n_items) + ' items'
+#print str(n_users) + ' users | ' + str(n_items) + ' items'
+print(f" {str(n_users)} users + {str(n_items)} + items")
 
 # Construct user-item matrix
 user_item_matrix = np.zeros((n_users, n_items))
@@ -164,7 +175,8 @@ sparsity = float(len(user_item_matrix.nonzero()[0]))
 sparsity /= (user_item_matrix.shape[0] * user_item_matrix.shape[1])
 sparsity *= 100
 
-print 'Sparsity: {:4.2f}%'.format(sparsity)
+#print 'Sparsity: {:4.2f}%'.format(sparsity)
+print(f"Sparsity: {sparsity}%")
 
 # We will split our data into training and test sets by removing 10 ratings per user from the training set and placing them in the test set.
 # ? can we user from sklearn.model_selection import train_test_split to do
@@ -175,12 +187,12 @@ train, test = recommendation_helpers.train_test_split(user_item_matrix)
 # ? why needs to do this
 user_similarity = recommendation_helpers.calc_similarity(train, kind='user')
 
-numpy.savetxt('temp/user-similarity.txt', user_similarity, fmt='%f')
+np.savetxt('user-similarity.txt', user_similarity, fmt='%f')
 
 # measure distance L2 between items
 item_similarity = recommendation_helpers.calc_similarity(train, kind='item')
 
-numpy.savetxt('temp/item-similarity.txt', item_similarity, fmt='%f')
+np.savetxt('item-similarity.txt', item_similarity, fmt='%f')
 
 # we predict with an average over all users' and display it's prediction error
 
@@ -189,15 +201,21 @@ numpy.savetxt('temp/item-similarity.txt', item_similarity, fmt='%f')
 simple_user_prediction = recommendation_helpers.predict_simple(train, user_similarity, 'user')
 # simple_item_prediction : [n_items, n_users] 
 simple_item_prediction = recommendation_helpers.predict_simple(train, item_similarity, 'item')
-print 'Simple User-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_user_prediction, test))
-print 'Simple Item-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_item_prediction, test))
+#print 'Simple User-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_user_prediction, test))
+print (f"Simple User-based CF MSE: {str(recommendation_helpers.get_mse(simple_user_prediction, test))}")
+
+#print 'Simple Item-based CF MSE: ' + str(recommendation_helpers.get_mse(simple_item_prediction, test))
+print (f"Simple Item-based CF MSE: {str(recommendation_helpers.get_mse(simple_item_prediction, test))}")
 
 # we predict with an average over the k-most similar users' and display it's prediction error
 
 mse_user = []
 mse_item = []
 
-for k1 in range(1, 80):
+# hyper parameter , initial as 80
+# number of iterations for k-most similar users
+#for k1 in range(1, 80):
+for k1 in range(1, 10):
     if (k1 % 1 == 0):
         topk_user_prediction = recommendation_helpers.predict_topk(train, user_similarity, kind='user', k=k1)
         topk_item_prediction = recommendation_helpers.predict_topk(train, item_similarity, kind='item', k=k1)
@@ -205,8 +223,10 @@ for k1 in range(1, 80):
         topk_user_error = recommendation_helpers.get_mse(topk_user_prediction, test)
         mse_user.append((k1, topk_user_error))
         mse_item.append((k1, topk_item_error))
-        print 'Topk User-based CF MSE:' + str(topk_user_error)
-        print 'Topk Item-based CF MSE:' + str(topk_item_error)
+        #print 'Topk User-based CF MSE:' + str(topk_user_error)
+        print (f"Topk User-based CF MSE: {str(topk_user_error)}")
+        #print 'Topk Item-based CF MSE:' + str(topk_item_error)
+        print (f"Topk Item-based CF MSE: {str(topk_item_error)}")
 
 plt.plot([ x[0] for x in mse_item ], [ x[1] for x in mse_item ], 'bs', label='Top-k Item-Item')
 
@@ -215,4 +235,6 @@ plt.plot([ x[0] for x in mse_user ], [ x[1] for x in mse_user ], 'g^', label='To
 plt.xlabel('Top k')
 plt.ylabel('MSE')
 plt.legend()
+# this is to drop picutre
+plt.show()
 plt.savefig('top-k-error')
