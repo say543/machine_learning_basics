@@ -1,11 +1,12 @@
 # https://github.com/adrianbarwicki/collaborative-filtering-demo
+# mdofify source branch
 # https://blog.csdn.net/pipisorry/article/details/51788955
 # equation link
 # http://divakalife.blogspot.com/2010/04/data-mining-collaborative-filtering.html
-# user CF algorithm
+# use USER-CF algorithm
 # find rating-similar users for a user and predict the user's rating 
-# mdofify source branch
-
+# use ITEM-CF algorithm
+# user KNN-based for USER-CF and ITEM-CF
 
 import numpy as np
 import pandas as pd
@@ -26,7 +27,10 @@ class recommendation_helpers:
     # simple_user_prediction : [n_users, n_items]
     # simple_item_prediction : [n_items, n_users]
     def get_mse(pred, actual):
+        # only calcuate erros for actual(test) which is not zero since zero value will be used as training
         # Ignore nonzero terms.
+        # nonzero outputs two tuples , list X and list y
+        # ? falttern is uncessary here since accessing 2-d index will output all element in one dimention
         pred = pred[actual.nonzero()].flatten()
         actual = actual[actual.nonzero()].flatten()
         return mean_squared_error(pred, actual)
