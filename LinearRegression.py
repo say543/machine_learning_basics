@@ -13,8 +13,6 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-
-
 class LinearRegression:
     
     def __init__(self):
@@ -31,6 +29,7 @@ class LinearRegression:
 
         # ? why bias initial as zero
         # ? and it serves as a matrix
+        # ? why not append bias as part of input
         self.bias = 0
         costs = []
 
@@ -38,6 +37,10 @@ class LinearRegression:
         for i in range(n_iters):
             # Step 1: Compute a linear combination of the input features and weights
             y_predict = np.dot(X, self.weights) + self.bias
+
+            # ? why divided by n_samples for all the following
+            # from Angrew NG
+            # it caclulates all samples 's cnotribution following then average it 
 
             # Step 2: Compute cost over training set
             cost = (1 / n_samples) * np.sum((y_predict - y)**2)
@@ -48,6 +51,8 @@ class LinearRegression:
                 print(f"Cost at iteration {i}: {cost}")
 
             # Step 3: Compute the gradients
+            # there is the from  derived from stochastic gradient decent (SGD) to batch processing
+            # ? why 2 in numerator
             dJ_dw = (2 / n_samples) * np.dot(X.T, (y_predict - y))
             dJ_db = (2 / n_samples) * np.sum((y_predict - y)) 
             
@@ -61,6 +66,7 @@ class LinearRegression:
         """
         Trains a linear regression model using the normal equation
         """
+        # normal linear regression close form
         self.weights = np.dot(np.dot(np.linalg.inv(np.dot(X.T, X)), X.T), y)
         self.bias = 0
         
@@ -120,6 +126,7 @@ n_samples_test, _ = X_test.shape
 y_p_train = regressor.predict(X_train)
 y_p_test = regressor.predict(X_test)
 
+# this can be replaced by 'from sklearn.metrics import mean_squared_error'
 error_train =  (1 / n_samples) * np.sum((y_p_train - y_train) ** 2)
 error_test =  (1 / n_samples_test) * np.sum((y_p_test - y_test) ** 2)
 
