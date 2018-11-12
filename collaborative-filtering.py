@@ -1,5 +1,9 @@
 # https://github.com/adrianbarwicki/collaborative-filtering-demo
 # mdofify source branch
+
+# https://medium.com/@julsimon/building-a-movie-recommender-with-factorization-machines-on-amazon-sagemaker-cedbfc8c93d8
+# move len source description
+
 # https://blog.csdn.net/pipisorry/article/details/51788955
 # equation link
 # http://divakalife.blogspot.com/2010/04/data-mining-collaborative-filtering.html
@@ -169,6 +173,7 @@ for row in ratings.itertuples():
     user_item_matrix[row[1]-1, row[2]-1] = row[3]
 
 # Calculating sparcity (in %): How many entries of the user_item_matrix are defined?
+# but this calculation is not applied in final calcaultion for speed up
 # https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.nonzero.html
 # [0] : output row index
 sparsity = float(len(user_item_matrix.nonzero()[0]))

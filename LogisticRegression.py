@@ -34,6 +34,7 @@ class LogisticRegression:
 
         # ? why bias initial as zero
         # ? and it serves as a matrix
+        # ? why not append bias as part of input
         self.bias = 0
         costs = []
         
@@ -49,6 +50,9 @@ class LogisticRegression:
             # [num of samples X 1]
             print(f'type: {type(y_predict)}')
             print(f'type: {y_predict.shape}')
+
+            # ? why divided by n_samples for all the following
+            # it caclulates all samples 's cnotribution following then average them out
 
             
             # Step 3: Compute the cost over the whole training set.
