@@ -214,7 +214,6 @@ print (f"Simple Item-based CF MSE: {str(recommendation_helpers.get_mse(simple_it
 
 # we predict with an average over the k-most similar users' and display it's prediction error
 
-
 mse_user = []
 mse_item = []
 

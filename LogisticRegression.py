@@ -52,7 +52,7 @@ class LogisticRegression:
             print(f'type: {y_predict.shape}')
 
             # ? why divided by n_samples for all the following
-            # it caclulates all samples 's cnotribution following then average it
+            # it caclulates all samples 's cnotribution following then average them out
 
             
             # Step 3: Compute the cost over the whole training set.

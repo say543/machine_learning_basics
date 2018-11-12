@@ -40,7 +40,7 @@ class LinearRegression:
 
             # ? why divided by n_samples for all the following
             # from Angrew NG
-            # it caclulates all samples 's cnotribution following then average it 
+            # it caclulates all samples 's cnotribution following then average them out
 
             # Step 2: Compute cost over training set
             cost = (1 / n_samples) * np.sum((y_predict - y)**2)
