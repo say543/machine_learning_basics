@@ -23,6 +23,7 @@ class HyperPlane_helpers:
     #剛好為0的value dec=0
     #在這邊因為是用x[:,0],x[:,1] 的方式來畫x,y軸
     #所以實際的方程式原本為此 v=w1*x[:,0]+w2*x[:,1]+b 進而求出w1,w2之間的關係
+    # 這邊感覺是求x[:,1] (因為[x:,0] 不用算 他是由 [hyp_x_min,hyp_x_max] 提供了)
     def hyperplane_value(x,w1,w2,b,v):
         return (-w1*x-b+v) / w2
 
@@ -36,6 +37,7 @@ class HyperPlane_helpers:
 
     	#max_feature_value表示為在x1,x2的圖上最右或者最上的值 
     	#在這裡可以限制圖上的datapoint
+	# ?感覺只是為了畫圖而產生
     	datarange=(min_feature_value*0.9,max_feature_value*1.1)
     	hyp_x_min=datarange[0]
     	hyp_x_max=datarange[1]
@@ -181,8 +183,9 @@ data_dict = {-1:np.array(negativeX), 1:np.array(postiveX)}
 max_feature_value=float('-inf')
 min_feature_value=float('inf')
 
-#針對-1和1的target開始找
-# ? 兩種features 同時找
+# 這邊是要找x[:,0] 的 range 
+# ? 但是兩種features 同時找 感覺不是太好的做法
+# 最後 min_feature_value / max_feature_value 都是sinlge value across y{-1,1}
 for yi in data_dict:
     #找出最大值 如果在-1找到更大的 就會取代原本的最大值
     if np.amax(data_dict[yi])>max_feature_value:
