@@ -72,7 +72,7 @@ plt.scatter(x[:,0],x[:,1],c=y,s=50,cmap='autumn')
 plt.show()
 
 
-# no label all {0, 1}
+# now label all {0, 1} before mapping
 print(f'y_label: {y}')
 
 
