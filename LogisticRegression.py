@@ -95,6 +95,7 @@ class LogisticRegression:
 
 
 # data set
+# default n_features =2, 2 dimention
 X, y_true = make_blobs(n_samples= 1000, centers=2)
 
 fig = plt.figure(figsize=(8,6))
@@ -105,7 +106,7 @@ plt.ylabel("Second feature")
 plt.show()
         
 
-
+# an array 1 X n_samples becomes n_samples x 1
 # Reshape targets to get column vector with shape (n_samples, 1)
 y_true = y_true[:, np.newaxis]
 # Split the data into a training and test set
