@@ -242,9 +242,14 @@ len(df2[df2['landing_page'] == 'new_page'])/len(df2)
 
 # ？這邊的自由度沒有像chi square 還要考慮
 
+
+#  p 指的是conversion rate
+# 要證明 new page 的conversion rate 比較好
+
 #Hypothesis
 #$H_0:  p_{new} - p_{old} \leq 0$
 #$H_1: p_{new} - p_{old} &gt; 0$
+
 
 
 # ? 這個assumption 是幹嘛的
