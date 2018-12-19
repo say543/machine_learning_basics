@@ -24,7 +24,25 @@ class KMeans():
         n_samples, _ = data.shape
         # initialize cluster centers
         # here select k sample datas as possible cluster centers
+
+        # data [numberof sampkes, number of features(here = 2)]
+        # centers : np.array[[], []].....  each [] is [1, of features(here = 2)]
+        # total k of [] inside 
+
+        # for debug
+        #print(f'data1: {data}')
+        #print(f'data2: {list(data)}')
+        #print(f'type: {type(data)}')
+        #print(f'type2: {type(list(data))}')
+
+        # need to be list here
+        # 因為data 是一個numpy.array 而numpy array  是一個dictionary
+        # 要轉成list 才可以用random.sample
         self.centers = np.array(random.sample(list(data), self.k))
+        # self.centers = np.array(random.sample(data, self.k))
+
+
+
         # create a copy, not reference of a np.array
         self.initial_centers = np.copy(self.centers)
 
@@ -64,11 +82,16 @@ class KMeans():
                 self.centers[id_] = datapoints.mean(axis=0)
 
     def l2_distance(self, datapoint):
+    # axis = 1
+        # a00, a01, a02 as a sinlge one to perfrom np_sum
         dists = np.sqrt(np.sum((self.centers - datapoint)**2, axis=1))
         return dists
 
     def classify(self, datapoint):
         """
+        Args:
+            datapoint: numpy array of shape (1, number of features)
+
         Given a datapoint, compute the cluster closest to the
         datapoint. Return the cluster ID of that cluster.
         """
@@ -88,6 +111,9 @@ class KMeans():
 # data set
 X, y = make_blobs(centers=4, n_samples=1000)
 print(f'Shape of dataset: {X.shape}')
+
+#debug
+print(f'X: {X}')
 
 fig = plt.figure(figsize=(8,6))
 plt.scatter(X[:,0], X[:,1], c=y)
