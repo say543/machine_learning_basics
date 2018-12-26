@@ -266,7 +266,7 @@ print("Probability an individual recieved new page:",
 # ? 不知道這個assumption 是幹嘛的
 # 參照 https://splitmetrics.com/blog/determining-sample-size-for-a-b-tests/
 # 我認為這個就是在null process 為true 的情況下 對母體的assume prob(理論上要用 α = 5% + z-test 來菇店)
-# 這邊省略了決定deteable effect 來算出sample 的觀念 直接取5000 來算distribution 來看看求出的值5%  的比較
+# 這邊省略了決定deteable effect 來算出sample 的觀念 直接取10,000 time each 10000 sample 來算distribution 來看看求出的值5%  的比較
 #Assume under the null hypothesis, 
 #$p_{new}$ and $p_{old}$ both have "true" success rates equal to the converted success rate regardless of page - 
 # that is $p_{new}$ and $p_{old}$ are equal. 
