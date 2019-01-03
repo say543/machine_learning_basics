@@ -95,7 +95,7 @@ class SoftmaxRegressor:
             # X.T : (number_features, n_samples)
             # y_one_hot : (n_samples, n_classes) 
             # probs : (n_samples, n_classes) 
-            # np.dot(X.T, (probs - y_one_hot)) : [number_clasees, number_features]
+            # dw: np.dot(X.T, (probs - y_one_hot)) : [number_features, number_clasees]
             # for each class k it has weight k as column vector in weight
 
             dw = (1 / self.n_samples) * np.dot(X.T, (probs - y_one_hot))
@@ -117,6 +117,7 @@ class SoftmaxRegressor:
 
 
             # minimize cross entropy, 所以用minus 的
+            #  dw [number_features, number_clasees],  transpose then add
             self.weights = self.weights - learning_rate * dw.T
             self.bias = self.bias - learning_rate * db
 
