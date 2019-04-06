@@ -265,6 +265,27 @@ print(f'Shape X_test: {X_test.shape}')
 print(f'Shape y_test: {y_test.shape}')
 
 
-# initial tree and train
+# Initializing and training the decision tree
 tree = DecisionTree()
 tree.train(X_train, y_train, max_depth=2, min_samples=1)
+
+
+# Printing the decision tree structure
+def print_tree(node, depth=0):
+    if isinstance(node, (int, np.integer)):
+        print(f"{depth * '  '}predicted class: {iris.target_names[node]}")
+    else:
+        print(f"{depth * '  '}{iris.feature_names[node['feature_idx']]} < {node['threshold']}, "
+             f"cost of split: {round(node['cost'], 3)}")
+        print_tree(node["left_child"], depth+1)
+        print_tree(node["right_child"], depth+1)
+              
+print_tree(tree.tree_dict)
+              
+#Testing the decision tree
+all_predictions = []
+for i in range(X_test.shape[0]):
+    result = tree.predict(X_test[i], tree.tree_dict)
+    all_predictions.append(y_test[i] == result)
+
+print(f"Accuracy on test set: {sum(all_predictions) / len(all_predictions)}")
