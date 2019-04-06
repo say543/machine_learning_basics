@@ -125,12 +125,23 @@ class DecisionTree:
 
         n_samples, n_features = X.shape
 
+        # np.inf 
+        # numpy infinitity constant
         best_feature_idx, best_threshold, best_cost, best_splits = np.inf, np.inf, np.inf, None
 
+        # go through all the features and select
         for feature_idx in range(n_features):
+            # go through all samples
             for i in range(n_samples):
                 current_sample = X[i]
                 threshold = current_sample[feature_idx]
+                # splits : dictionary with the following key-value pairs
+                # splits = {
+                # 'left': left_subset,
+                # 'y_left': y_left,
+                # 'right': right_subset,
+                # 'y_right': y_right,
+                # }
                 splits = self.split_dataset(X, y, feature_idx, threshold)
                 cost = self.get_cost(splits)
 
