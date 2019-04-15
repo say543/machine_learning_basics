@@ -69,7 +69,11 @@ class DecisionTree:
             gini_right: gloat, Gini impurity of right subset
         """
 
-        n_total = n_left + n_left
+        #  bug ?
+        # should be n_left + n_right
+        #n_total = n_left + n_left
+        n_total = n_left + n_right
+        
 
         score_left, score_right = 0, 0
         gini_left, gini_right = 0, 0
