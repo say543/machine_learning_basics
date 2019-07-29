@@ -1,6 +1,8 @@
 ###
 #https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
 # not yet finish
+# internet link
+#https://github.com/javedsha/text-classification/blob/master/Text%2BClassification%2Busing%2Bpython%2C%2Bscikit%2Band%2Bnltk.py
 ###
 
 
